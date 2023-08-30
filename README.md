@@ -1,0 +1,2 @@
+# wez
+weather cli app
