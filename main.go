@@ -20,7 +20,7 @@ func main() {
 		fmt.Errorf("error: %s", err)
 	}
 
-	requestURL := fmt.Sprintf("https://api.weatherapi.com/v1/forecast.json?q=Chernivtsi&days=1&lang=ua&key=%s", opts.ApiKey)
+	requestURL := fmt.Sprintf("https://api.weatherapi.com/v1/forecast.json?q=%s&days=1&lang=ua&key=%s", opts.Location, opts.ApiKey)
 	res, err := http.Get(requestURL)
 	if err != nil {
 		fmt.Printf("error making http request: %s\n", err)

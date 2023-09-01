@@ -120,6 +120,7 @@ type Weather struct {
 }
 
 type opts struct {
-	ApiKey  string `long:"apikey" description:"Weather api key" required:"true"`
-	Weather string `short:"w" long:"weather" description:"Get weather" required:"false"`
+	ApiKey   string `long:"apikey" description:"Weather api key" required:"true"`
+	Location string `short:"l" long:"location" description:"Location: city" default:"Chernivtsi" required:"false"`
+	Weather  string `short:"w" long:"weather" description:"Get weather" required:"false"`
 }
