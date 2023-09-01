@@ -42,21 +42,18 @@ func main() {
 
 	location := fmt.Sprintf("%s, %s ", weather.Location.Name, weather.Location.Country)
 	color.Println(color.YellowBg(location, color.Blk))
-	t := fmt.Sprintf("%s ", weather.Location.Localtime)
+	t := fmt.Sprintf("%s ", time.Now().Format("2006-01-02"))
 	color.Println(color.YellowBg(t, color.Blk))
-	currentWeather := fmt.Sprintf("%s %.1f°C", GetWeatherEmoji(weather.Current.Condition.Text), weather.Current.TempC)
+
+	currentWeather := fmt.Sprintf("%s %.1f°C %s ", time.Now().Format("15:02"), weather.Current.TempC, GetWeatherEmoji(weather.Current.Condition.Text))
 	color.Println(color.BlueBg(currentWeather, color.Wht))
 
 	for _, day := range weather.Forecast.ForecastDay {
-		//fmt.Printf("%d. %s\n", i+1, day.Date)
-		//fmt.Printf("   %s\n", day.Day.Condition.Text)
-		//fmt.Printf("   %.1f°C\n", day.Day.AvgTempC)
-
 		for _, hour := range day.Hour {
 			date := time.Unix(hour.TimeEpoch, 0)
 			if date.After(time.Now()) {
 				hourlyForecast := fmt.Sprintf(
-					"%s %.1f°C  %s  ",
+					"%s %.1f°C %s ",
 					date.Format("15:04"),
 					hour.TempC,
 					GetWeatherEmoji(hour.Condition.Text),
