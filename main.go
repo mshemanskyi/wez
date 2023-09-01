@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jessevdk/go-flags"
+	"github.com/labstack/gommon/color"
 	"io"
 	"net/http"
 	"os"
@@ -39,8 +40,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("%s, %s\n%s \n", weather.Location.Name, weather.Location.Country, weather.Location.Localtime)
-	fmt.Printf("%s %.1f°C \n\n", weather.Current.Condition.Text, weather.Current.TempC)
+	location := fmt.Sprintf("%s, %s ", weather.Location.Name, weather.Location.Country)
+	color.Println(color.YellowBg(location, color.Blk))
+	t := fmt.Sprintf("%s ", weather.Location.Localtime)
+	color.Println(color.YellowBg(t, color.Blk))
+	currentWeather := fmt.Sprintf("%s %.1f°C", GetWeatherEmoji(weather.Current.Condition.Text), weather.Current.TempC)
+	color.Println(color.BlueBg(currentWeather, color.Wht))
 
 	for _, day := range weather.Forecast.ForecastDay {
 		//fmt.Printf("%d. %s\n", i+1, day.Date)
@@ -50,12 +55,23 @@ func main() {
 		for _, hour := range day.Hour {
 			date := time.Unix(hour.TimeEpoch, 0)
 			if date.After(time.Now()) {
-				fmt.Printf(
-					"%s %.1f°C %s\n",
+				hourlyForecast := fmt.Sprintf(
+					"%s %.1f°C  %s  ",
 					date.Format("15:04"),
 					hour.TempC,
 					GetWeatherEmoji(hour.Condition.Text),
 				)
+
+				if hour.TempC > 25 {
+					color.Println(color.Red(hourlyForecast))
+				} else if hour.TempC > 15 && hour.TempC < 25 {
+					color.Println(color.Green(hourlyForecast))
+				} else if hour.TempC > 10 && hour.TempC < 15 {
+					color.Println(color.Yellow(hourlyForecast))
+				} else if hour.TempC < 10 {
+					color.Println(color.Blue(hourlyForecast))
+				}
+
 			}
 		}
 		fmt.Printf("\n")
