@@ -42,10 +42,12 @@ func main() {
 
 	location := fmt.Sprintf("%s, %s ", weather.Location.Name, weather.Location.Country)
 	color.Println(color.YellowBg(location, color.Blk))
-	t := fmt.Sprintf("%s ", time.Now().Format("2006-01-02"))
+
+	tnow := time.Now()
+	t := fmt.Sprintf("%s ", tnow.Format("2006-01-02"))
 	color.Println(color.YellowBg(t, color.Blk))
 
-	currentWeather := fmt.Sprintf("%s %.1f°C %s ", time.Now().Format("15:02"), weather.Current.TempC, GetWeatherEmoji(weather.Current.Condition.Text))
+	currentWeather := fmt.Sprintf("%d:%d %.1f°C %s ", tnow.Hour(), tnow.Minute(), weather.Current.TempC, GetWeatherEmoji(weather.Current.Condition.Text))
 	color.Println(color.BlueBg(currentWeather, color.Wht))
 
 	for _, day := range weather.Forecast.ForecastDay {
