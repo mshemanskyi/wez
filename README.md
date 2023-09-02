@@ -11,6 +11,10 @@ Using https://www.weatherapi.com API to get weather information. You need to get
     
 
 ## Usage
+    -l --location <location>  Location to get weather information
+    --apikey <apiKey>         API key from https://www.weatherapi.com
+    -f --forecast 3            Show forecast for n days
+
     wez --apikey=<apiKey> -l "London"
     wez --apikey=<apiKey> -location "London"
 

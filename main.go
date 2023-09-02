@@ -20,7 +20,7 @@ func main() {
 		fmt.Errorf("error: %s", err)
 	}
 
-	requestURL := fmt.Sprintf("https://api.weatherapi.com/v1/forecast.json?q=%s&days=1&lang=ua&key=%s", opts.Location, opts.ApiKey)
+	requestURL := fmt.Sprintf("https://api.weatherapi.com/v1/forecast.json?q=%s&days=%s&lang=ua&key=%s", opts.Location, opts.Forecast, opts.ApiKey)
 	res, err := http.Get(requestURL)
 	if err != nil {
 		fmt.Printf("error making http request: %s\n", err)
@@ -50,7 +50,10 @@ func main() {
 	currentWeather := fmt.Sprintf("%d:%d %.1f°C %s ", tnow.Hour(), tnow.Minute(), weather.Current.TempC, GetWeatherEmoji(weather.Current.Condition.Text))
 	color.Println(color.BlueBg(currentWeather, color.Wht))
 
-	for _, day := range weather.Forecast.ForecastDay {
+	for i, day := range weather.Forecast.ForecastDay {
+		if i != 0 {
+			color.Println(color.YellowBg(day.Date, color.Blk))
+		}
 		for _, hour := range day.Hour {
 			date := time.Unix(hour.TimeEpoch, 0)
 			if date.After(time.Now()) {
